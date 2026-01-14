@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProtoNow 原型速享 - Chrome 扩展商店</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e8f0fe 100%);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 0;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 40px;
+        }
+        
+        .header-left {
+            flex: 1;
+        }
+        
+        .brand-name {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .brand-name h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a365d;
+            background: linear-gradient(135deg, #4A7BFF 0%, #3366CC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .brand-name .chinese {
+            font-size: 32px;
+            font-weight: 600;
+            color: #475569;
+        }
+        
+        .slogan {
+            font-size: 24px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+        
+        .highlight {
+            color: #FF6B35;
+            font-weight: 600;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: #FFD166;
+            font-size: 20px;
+        }
+        
+        .install-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF4500 100%);
+            color: white;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* 图标展示区 */
+        .icon-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .icon-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .icon-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .icon-card h3 {
+            color: #475569;
+            margin: 15px 0 10px;
+            font-size: 16px;
+        }
+        
+        .icon-card .size {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        /* 主题切换展示 */
+        .theme-showcase {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .theme-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .theme-card.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        }
+        
+        .theme-card.dark {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            color: white;
+        }
+        
+        /* 功能展示 */
+        .features {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: #1a365d;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        /* 使用场景 */
+        .use-cases {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 30px;
+            padding: 60px;
+            margin: 60px 0;
+            color: white;
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .case-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* 操作步骤 */
+        .steps {
+            margin: 60px 0;
+        }
+        
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #4A7BFF 0%, #3366CC 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        /* 对比表格 */
+        .comparison {
+            margin: 60px 0;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #4A7BFF 0%, #3366CC 100%);
+            color: white;
+            padding: 25px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 25px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: #10b981;
+            font-size: 20px;
+        }
+        
+        .cross {
+            color: #ef4444;
+            font-size: 20px;
+        }
+        
+        /* 技术支持平台 */
+        .platforms {
+            margin: 60px 0;
+        }
+        
+        .platform-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .platform-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 安装CTA */
+        .install-cta {
+            text-align: center;
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 30px;
+            padding: 80px 40px;
+            margin: 60px 0;
+            color: white;
+        }
+        
+        .install-cta h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .install-cta .highlight {
+            color: #FF6B35;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .brand-name {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .brand-name h1 {
+                font-size: 36px;
+            }
+            
+            .slogan {
+                font-size: 20px;
+            }
+            
+            .theme-showcase {
+                flex-direction: column;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .install-cta h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域 -->
+        <div class="header">
+            <div class="header-left">
+                <div class="brand-name">
+                    <h1>ProtoNow</h1>
+                    <span class="chinese">原型速享</span>
+                </div>
+                <div class="slogan">
+                    <span class="highlight">AI生成的原型，1分钟变成可分享的页面</span>
+                </div>
+                <div class="rating">
+                    <div class="stars">★★★★★</div>
+                    <span>4.9/5 · 超过 5,000+ 用户</span>
+                </div>
+                <a href="#install" class="install-btn">+ 添加到 Chrome</a>
+            </div>
+            
+            <!-- 主图标展示 -->
+            <div class="icon-card">
+                <svg width="128" height="128" viewBox="0 0 128 128">
+                    <defs>
+                        <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#4A7BFF"/>
+                            <stop offset="100%" stop-color="#3366CC"/>
+                        </linearGradient>
+                        <filter id="mainShadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.1)"/>
+                        </filter>
+                    </defs>
+                    <circle cx="64" cy="64" r="60" fill="url(#mainGradient)"/>
+                    <rect x="32" y="32" width="64" height="64" rx="8" fill="#FFFFFF" filter="url(#mainShadow)"/>
+                    <path d="M90 40 L110 40 L110 60 M100 50 L110 40 M100 50 L110 60" 
+                          stroke="#FF6B35" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M40 90 L44 82 L52 80 L46 74 L48 66 L40 70 L32 66 L34 74 L28 80 L36 82 Z" 
+                          fill="#FFD166"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- 图标展示区 -->
+        <div class="icon-showcase">
+            <div class="icon-card">
+                <svg width="128" height="128" viewBox="0 0 128 128">
+                    <defs>
+                        <linearGradient id="icon128" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#4A7BFF"/>
+                            <stop offset="100%" stop-color="#3366CC"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="64" cy="64" r="60" fill="url(#icon128)"/>
+                    <rect x="32" y="32" width="64" height="64" rx="8" fill="#FFFFFF"/>
+                    <path d="M90 40 L110 40 L110 60 M100 50 L110 40 M100 50 L110 60" 
+                          stroke="#FF6B35" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M40 90 L44 82 L52 80 L46 74 L48 66 L40 70 L32 66 L34 74 L28 80 L36 82 Z" 
+                          fill="#FFD166"/>
+                </svg>
+                <h3>宣传图标</h3>
+                <div class="size">128×128px</div>
+            </div>
+            
+            <div class="icon-card">
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="22" fill="#4A7BFF"/>
+                    <rect x="12" y="12" width="24" height="24" rx="4" fill="#FFFFFF"/>
+                    <path d="M30 15 L38 15 L38 23 M34 19 L38 15 M34 19 L38 23" 
+                          stroke="#FF6B35" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M15 33 L17 30 L20 29 L18 27 L19 24 L15 26 L11 24 L12 27 L10 29 L13 30 Z" 
+                          fill="#FFD166"/>
+                </svg>
+                <h3>商店图标</h3>
+                <div class="size">48×48px</div>
+            </div>
+            
+            <div class="icon-card">
+                <svg width="16" height="16" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="7" fill="#4A7BFF"/>
+                    <rect x="4" y="4" width="8" height="8" rx="1" fill="#FFFFFF"/>
+                </svg>
+                <h3>工具栏图标</h3>
+                <div class="size">16×16px</div>
+            </div>
+        </div>
+
+        <!-- 主题切换展示 -->
+        <h2 class="section-title">完美适配深色/浅色模式</h2>
+        <div class="theme-showcase">
+            <div class="theme-card light">
+                <h3>🌞 浅色主题</h3>
+                <div style="margin: 20px 0; text-align: center;">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="30" fill="#4A7BFF"/>
+                        <rect x="16" y="16" width="32" height="32" rx="4" fill="#FFFFFF"/>
+                        <path d="M44 20 L52 20 L52 28 M48 24 L52 20 M48 24 L52 28" 
+                              stroke="#FF6B35" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M20 44 L22 40 L26 38 L24 34 L25 30 L20 32 L15 30 L16 34 L14 38 L18 40 Z" 
+                              fill="#FFD166"/>
+                    </svg>
+                </div>
+                <p>明亮友好的设计，完美融入浅色界面</p>
+            </div>
+            
+            <div class="theme-card dark">
+                <h3>🌙 深色主题</h3>
+                <div style="margin: 20px 0; text-align: center;">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="30" fill="#1A2332"/>
+                        <rect x="16" y="16" width="32" height="32" rx="4" fill="#E8EDF3"/>
+                        <path d="M44 20 L52 20 L52 28 M48 24 L52 20 M48 24 L52 28" 
+                              stroke="#FF7D42" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M20 44 L22 40 L26 38 L24 34 L25 30 L20 32 L15 30 L16 34 L14 38 L18 40 Z" 
+                              fill="#FFD166"/>
+                    </svg>
+                </div>
+                <p>专业深色设计，夜间使用更舒适</p>
+            </div>
+        </div>
+
+        <!-- 核心功能 -->
+        <div class="features">
+            <h2 class="section-title">✨ 核心功能</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>一键部署</h3>
+                    <p>在豆包/ChatGPT等平台生成原型代码后，只需点击"部署"按钮，即刻生成可访问的页面链接</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>私域分享</h3>
+                    <p>生成的链接可直接放入微信群、官网、邮件等私域场景，无需依赖第三方平台账户</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>统一收藏</h3>
+                    <p>所有部署过的原型自动分类收藏，支持标签和搜索，告别素材分散的烦恼</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>跨平台支持</h3>
+                    <p>支持豆包、ChatGPT、Claude、通义千问等主流AI平台，操作习惯完全一致</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用场景 -->
+        <div class="use-cases">
+            <h2 style="font-size: 32px; text-align: center; margin-bottom: 20px;">🎯 谁需要这个插件？</h2>
+            <p style="text-align: center; opacity: 0.9; margin-bottom: 40px;">无论你是否懂技术，只要你想把AI生成的原型变成可演示的页面</p>
+            
+            <div class="case-grid">
+                <div class="case-item">
+                    <h3>👨‍💼 产品经理</h3>
+                    <p>快速验证产品想法，生成可交互原型给团队或客户演示</p>
+                </div>
+                
+                <div class="case-item">
+                    <h3>🚀 创业者</h3>
+                    <p>用原型快速测试市场反馈，向投资人展示产品概念</p>
+                </div>
+                
+                <div class="case-item">
+                    <h3>🎨 UI/UX设计师</h3>
+                    <p>将设计稿转化为可交互原型，收集用户反馈</p>
+                </div>
+                
+                <div class="case-item">
+                    <h3>📈 运营人员</h3>
+                    <p>快速制作活动页面原型，测试不同方案的效果</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作步骤 -->
+        <div class="steps">
+            <h2 class="section-title">⚡ 3步搞定，无需代码</h2>
+            
+            <div class="step-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>在AI平台生成原型</h3>
+                        <p>在豆包、ChatGPT等平台输入你的需求，如"帮我设计一个电商App的登录页面"</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>点击"部署"按钮</h3>
+                        <p>代码块旁会自动出现ProtoNow的部署按钮，一键点击</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>分享链接查看</h3>
+                        <p>自动生成专属链接，复制到任何地方分享，对方点击即可查看</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 对比表格 -->
+        <div class="comparison">
+            <h2 class="section-title">📊 为什么选择 ProtoNow？</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能对比</th>
+                            <th>传统方式</th>
+                            <th style="background: linear-gradient(135deg, #FF6B35 0%, #FF4500 100%);">ProtoNow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>学习成本</td>
+                            <td>需要学习代码或专业工具</td>
+                            <td><span class="check">✓</span> 完全无代码，5分钟上手</td>
+                        </tr>
+                        <tr>
+                            <td>部署时间</td>
+                            <td>几小时到几天</td>
+                            <td><span class="check">✓</span> 1分钟内完成</td>
+                        </tr>
+                        <tr>
+                            <td>分享便利性</td>
+                            <td>需要复杂配置和解释</td>
+                            <td><span class="check">✓</span> 一个链接，点击即看</td>
+                        </tr>
+                        <tr>
+                            <td>私域控制</td>
+                            <td>依赖第三方平台限制</td>
+                            <td><span class="check">✓</span> 完全自主控制</td>
+                        </tr>
+                        <tr>
+                            <td>素材管理</td>
+                            <td>分散在多个地方</td>
+                            <td><span class="check">✓</span> 统一收藏管理</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 支持平台 -->
+        <div class="platforms">
+            <h2 class="section-title">🤝 完美支持的AI平台</h2>
+            
+            <div class="platform-icons">
+                <div class="platform-icon">豆包</div>
+                <div class="platform-icon">ChatGPT</div>
+                <div class="platform-icon">Claude</div>
+                <div class="platform-icon">通义千问</div>
+                <div class="platform-icon">文心一言</div>
+            </div>
+            
+            <p style="text-align: center; color: #64748b; margin-top: 20px;">以及所有支持代码块输出的AI平台</p>
+        </div>
+
+        <!-- 用户评价 -->
+        <div class="features" style="margin-top: 80px;">
+            <h2 class="section-title">💬 用户怎么说</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card" style="background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);">
+                    <p style="font-style: italic; margin-bottom: 15px;">"作为不懂技术的产品经理，这个插件救了我的命！以前总要等开发帮忙部署原型，现在1分钟自己搞定。"</p>
+                    <p style="font-weight: 600; color: #475569;">- 张产品经理 · 某互联网公司</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);">
+                    <p style="font-style: italic; margin-bottom: 15px;">"创业初期预算有限，这个插件让我能快速给投资人展示产品原型，而且效果很专业！"</p>
+                    <p style="font-weight: 600; color: #475569;">- 李创业者 · 某初创公司</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 100%);">
+                    <p style="font-style: italic; margin-bottom: 15px;">"团队成员都在用不同AI平台，但ProtoNow都能支持，统一了我们的工作流程。"</p>
+                    <p style="font-weight: 600; color: #475569;">- 王设计师 · 设计团队负责人</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 安装CTA -->
+        <div class="install-cta" id="install">
+            <h2>开始你的<span class="highlight">无代码原型之旅</span></h2>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                超过5,000名产品经理、创业者、设计师正在使用ProtoNow提升工作效率
+            </p>
+            
+            <a href="#" class="install-btn" style="font-size: 22px; padding: 20px 60px;">🚀 立即免费安装</a>
+            
+            <div style="margin-top: 40px; font-size: 14px; opacity: 0.8;">
+                <p>✓ 完全免费使用 · ✓ 无需信用卡 · ✓ 隐私安全保护 · ✓ 7x24技术支持</p>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="features" style="margin-bottom: 80px;">
+            <h2 class="section-title">❓ 常见问题</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>需要付费吗？</h3>
+                    <p>ProtoNow基础功能完全免费，未来高级功能会保持亲民价格，永远有免费版本。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>需要懂编程吗？</h3>
+                    <p>完全不需要！设计初衷就是让不懂代码的人也能轻松使用，所有操作都是点击完成。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>数据安全吗？</h3>
+                    <p>所有部署的原型都经过加密处理，支持密码保护，你也可以随时删除数据。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>支持团队协作吗？</h3>
+                    <p>支持！可以生成团队共享链接，方便团队成员共同查看和讨论原型。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的安装按钮点击动画
+        document.querySelectorAll('.install-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 创建点击效果
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // 模拟安装流程
+                alert('正在安装 ProtoNow 原型速享插件...\n\n安装完成后，刷新你的AI平台页面即可开始使用！');
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
