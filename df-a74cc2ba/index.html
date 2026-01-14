@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeployFlow 功能对比与风险评估报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lucide@0.292.0/dist/umd/lucide.min.js" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        neutral: '#64748b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            }
+            .section-title {
+                @apply text-xl font-bold text-gray-800 mb-4 border-l-4 border-primary pl-3;
+            }
+            .status-badge {
+                @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 头部 -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">DeployFlow 功能对比与风险评估报告</h1>
+            <p class="text-gray-600 mt-2">基于需求的功能实现状态梳理 | 最后更新：2026-01-13</p>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- 核心需求回顾 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">📌 核心需求回顾</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                    <span class="lucide-check-circle text-primary mt-1 mr-2"></span>
+                    <span>浏览器插件在 AI 页面注入一键部署按钮，将 HTML 部署至 OSS/GitHub 实现预览</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="lucide-check-circle text-primary mt-1 mr-2"></span>
+                    <span>统计用户使用量、资源访问量，控制 OSS/带宽成本与网络安全风险</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="lucide-check-circle text-primary mt-1 mr-2"></span>
+                    <span>用户注册/付费体系，体验版（临时域名）vs 付费版（备案域名）</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="lucide-check-circle text-primary mt-1 mr-2"></span>
+                    <span>复用 GitHub 免费资源+DNS 配置插件，降低免费部署成本</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="lucide-check-circle text-primary mt-1 mr-2"></span>
+                    <span>内容安全管控，防止违规内容传播与资源滥用</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 功能实现状态对比 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">✅ 已实现功能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 采集层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-browser text-primary mr-2"></span>采集层（浏览器插件）
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">多平台适配（豆包、ChatGPT、Claude 等 5+ AI 平台）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">智能识别 HTML 代码块并注入预览按钮</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">一键部署至 GitHub Pages，实时反馈部署状态</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 调度层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-server text-primary mr-2"></span>调度层（网关服务）
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">来源白名单校验（仅允许信任 AI 平台调用）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">HTML 内容 SHA-256 哈希去重（秒传）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">渠道归因统计（标记部署来源平台）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">基础敏感词过滤，拦截违规内容部署</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 存储层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-database text-primary mr-2"></span>存储层（资源池）
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">GitHub Pages 多账号池负载均衡</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">GitHub API 集成与仓库自动管理</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 管理层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-chart-pie text-primary mr-2"></span>管理层（后台看板）
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">全链路部署统计、拦截记录可视化</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">各 AI 平台流量贡献比分析</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">GitHub 账号池状态监控</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-success/10 text-success">已实现</span>
+                            <span class="ml-2">数据库层设计（用户、部署记录等核心表）</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 待实现功能 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">🔄 待实现功能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 商业化层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-credit-card text-warning mr-2"></span>商业化层
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">用户注册/登录体系（微信/GitHub 登录）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">支付集成（按量付费/会员订阅）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">用户层级配额管控（免费/基础/企业版）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">付费用户自定义域名绑定</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 存储层补充 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-cloud text-warning mr-2"></span>存储层补充
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">阿里云 OSS STS 授权直传（付费链路）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">OSS 存储分层（标准/低频访问）</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 域名与DNS层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-globe text-warning mr-2"></span>域名与 DNS 层
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">域名分层管理（临时国外域名+国内备案域名）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">Cloudflare/阿里云 DNS 自动化配置</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">GitHub DNS 自动配置插件整合</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">链接有效期（7天过期）与自动回收</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 风控与安全层 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="lucide-shield-alert text-warning mr-2"></span>风控与安全层
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">动态代理池（GitHub API 防封禁）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">AI 文本审计 API 集成（违规内容识别）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">异常访问检测（刷流量拦截）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            <span class="ml-2">精准流量统计与成本核算</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 完整功能模块列表 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">📋 完整功能模块列表</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">模块层级</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">功能模块</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">实现状态</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">优先级</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- 采集层 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">采集层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">多平台适配器</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-success/10 text-success">已实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">已完成</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">采集层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">GitHub DNS 配置整合</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-warning font-medium">高</td>
+                        </tr>
+                        <!-- 调度层 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">调度层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">来源白名单校验</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-success/10 text-success">已实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">已完成</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">调度层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">内容去重</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-success/10 text-success">已实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">已完成</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">调度层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">异常访问风控</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-warning font-medium">高</td>
+                        </tr>
+                        <!-- 存储层 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">存储层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">GitHub Pages 账号池</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-success/10 text-success">已实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">已完成</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">存储层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">OSS STS 直传</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-warning font-medium">高</td>
+                        </tr>
+                        <!-- 域名层 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">域名层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">域名分层管理</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-warning font-medium">高</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">域名层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">DNS 自动化配置</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral font-medium">中</td>
+                        </tr>
+                        <!-- 商业化层 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">商业化层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">用户体系</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-warning font-medium">高</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">商业化层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">支付集成</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral font-medium">中</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">商业化层</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">自定义域名</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="status-badge bg-warning/10 text-warning">待实现</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-neutral font-medium">中</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 注意事项 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">⚠️ 关键注意事项</h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-primary pl-4 py-2">
+                    <h3 class="font-semibold text-gray-800">GitHub API 管控</h3>
+                    <p class="text-gray-700 text-sm mt-1">
+                        单 GitHub 账号每小时 API 调用限制 5000 次，需监控账号调用量，建议配置 3-5 个账号做负载均衡；定期轮换 Token，避免长期使用同一 Token 触发风控。
+                    </p>
+                </div>
+                <div class="border-l-4 border-primary pl-4 py-2">
+                    <h3 class="font-semibold text-gray-800">数据库运维</h3>
+                    <p class="text-gray-700 text-sm mt-1">
+                        生产环境需开启 MySQL 主从复制，每日全量备份+增量备份；对部署记录、审计日志等大表做分表处理，避免单表数据量过大影响查询性能。
+                    </p>
+                </div>
+                <div class="border-l-4 border-primary pl-4 py-2">
+                    <h3 class="font-semibold text-gray-800">接口安全</h3>
+                    <p class="text-gray-700 text-sm mt-1">
+                        生产环境需启用 HTTPS，对所有 API 接口添加频率限制（单 IP/用户每秒≤10 次）；AUTH_SECRET/ADMIN_SECRET 需定期更换，避免硬编码在代码中。
+                    </p>
+                </div>
+                <div class="border-l-4 border-primary pl-4 py-2">
+                    <h3 class="font-semibold text-gray-800">域名合规</h3>
+                    <p class="text-gray-700 text-sm mt-1">
+                        备案域名需严格审核部署内容，避免违规内容导致域名被注销；临时域名需准备多个备用域名，建立一键切换机制。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 潜在风险 -->
+        <section class="mb-10 bg-white rounded-lg p-6 card-shadow">
+            <h2 class="section-title">🚨 潜在风险与应对策略</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="border border-danger/20 rounded-lg p-4 bg-danger/5">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <span class="lucide-triangle-alert text-danger mr-2"></span>GitHub 账号封禁风险
+                    </h3>
+                    <p class="text-gray-700 text-sm mb-2">
+                        多账号池共用 IP 可能被 GitHub 关联封禁，导致免费链路瘫痪。
+                    </p>
+                    <p class="text-gray-700 text-sm font-medium">应对策略：</p>
+                    <ul class="text-gray-700 text-sm list-disc list-inside mt-1">
+                        <li>接入动态代理池，每个账号使用独立 IP 调用 API</li>
+                        <li>限制单账号每日部署次数（≤100 次）</li>
+                        <li>建立备用账号池，主账号封禁时自动切换</li>
+                    </ul>
+                </div>
+                <div class="border border-danger/20 rounded-lg p-4 bg-danger/5">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <span class="lucide-triangle-alert text-danger mr-2"></span>域名滥用风险
+                    </h3>
+                    <p class="text-gray-700 text-sm mb-2">
+                        部署内容包含违规信息，导致域名被监管部门封禁，影响所有用户。
+                    </p>
+                    <p class="text-gray-700 text-sm font-medium">应对策略：</p>
+                    <ul class="text-gray-700 text-sm list-disc list-inside mt-1">
+                        <li>接入第三方 AI 内容审计 API，部署前强制审核</li>
+                        <li>对试用用户部署内容添加水印，限制传播范围</li>
+                        <li>建立违规内容快速下架机制，10 分钟内处理投诉</li>
+                    </ul>
+                </div>
+                <div class="border border-danger/20 rounded-lg p-4 bg-danger/5">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <span class="lucide-triangle-alert text-danger mr-2"></span>成本失控风险
+                    </h3>
+                    <p class="text-gray-700 text-sm mb-2">
+                        付费用户 OSS 带宽/存储超支，或试用用户刷 GitHub Pages 流量，导致成本超出预期。
+                    </p>
+                    <p class="text-gray-700 text-sm font-medium">应对策略：</p>
+                    <ul class="text-gray-700 text-sm list-disc list-inside mt-1">
+                        <li>为每个用户设置流量/存储硬上限，超出自动暂停服务</li>
+                        <li>OSS 开启流量监控告警，超阈值时推送通知</li>
+                        <li>GitHub Pages 访问量异常时，临时限制该链接访问</li>
+                    </ul>
+                </div>
+                <div class="border border-danger/20 rounded-lg p-4 bg-danger/5">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <span class="lucide-triangle-alert text-danger mr-2"></span>数据安全风险
+                    </h3>
+                    <p class="text-gray-700 text-sm mb-2">
+                        用户部署的 HTML 内容包含敏感信息，或数据库泄露导致用户数据外泄。
+                    </p>
+                    <p class="text-gray-700 text-sm font-medium">应对策略：</p>
+                    <ul class="text-gray-700 text-sm list-disc list-inside mt-1">
+                        <li>对部署的 HTML 内容做脱敏处理，过滤敏感信息</li>
+                        <li>数据库敏感字段（如 Token）加密存储</li>
+                        <li>定期做安全渗透测试，修复漏洞</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-300 text-sm">DeployFlow 功能评估报告 | 基于需求的全维度分析</p>
+            <p class="text-gray-400 text-xs mt-2">© 2026 DeployFlow Team. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 图标脚本 -->
+    <script>
+        // 初始化 Lucide 图标
+        document.addEventListener('DOMContentLoaded', () => {
+            const icons = document.querySelectorAll('[class^="lucide-"]');
+            icons.forEach(icon => {
+                const iconName = icon.className.split(' ')[0].replace('lucide-', '');
+                const svg = lucide.createIcons({
+                    icons: [iconName],
+                    attrs: {
+                        width: '18',
+                        height: '18',
+                        strokeWidth: '2',
+                    }
+                });
+                icon.innerHTML = svg[iconName];
+            });
+        });
+    </script>
+</body>
+</html>
