@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纺织工厂智能体升级解决方案</title>
+    <!-- 引入Tailwind CSS实现美观UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF', // 深蓝主色（工业科技感）
+                        secondary: '#F97316', // 橙色点缀（突出重点）
+                        neutral: '#F3F4F6', // 浅灰背景
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 头部Banner -->
+    <header class="bg-primary text-white py-16 px-4 md:px-8 lg:px-16">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-shadow mb-4">纺织工厂智能体升级解决方案</h1>
+            <p class="text-lg md:text-xl opacity-90 max-w-3xl">
+                基于2026工业大模型（LMM）与多模态智能体技术，聚焦设备、质检、销售、研发核心场景，实现降本增效+业务增收双轮驱动
+            </p>
+        </div>
+    </header>
+
+    <!-- 核心优势概览 -->
+    <section class="py-12 px-4 md:px-8 lg:px-16 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">核心价值：精准解决工厂核心痛点</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 设备运维 -->
+                <div class="bg-neutral rounded-lg p-6 card-hover border border-gray-100">
+                    <div class="text-primary text-3xl mb-4"><i class="fa fa-cogs"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">设备运维智能体</h3>
+                    <p class="text-gray-600">从“事后维修”到“预测性维护”，故障预警提前24-48小时，停机损失减少40%</p>
+                </div>
+
+                <!-- 布匹质检 -->
+                <div class="bg-neutral rounded-lg p-6 card-hover border border-gray-100">
+                    <div class="text-primary text-3xl mb-4"><i class="fa fa-search"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">布匹质检智能体</h3>
+                    <p class="text-gray-600">多模态视觉识别，准确率≥95%，单设备人力从2人减至0.5人</p>
+                </div>
+
+                <!-- 销售赋能 -->
+                <div class="bg-neutral rounded-lg p-6 card-hover border border-gray-100">
+                    <div class="text-primary text-3xl mb-4"><i class="fa fa-users"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">销售Copilot</h3>
+                    <p class="text-gray-600">实时话术支撑+精准获客，线索转化率提升20%，新手快速上手</p>
+                </div>
+
+                <!-- 研发辅助 -->
+                <div class="bg-neutral rounded-lg p-6 card-hover border border-gray-100">
+                    <div class="text-primary text-3xl mb-4"><i class="fa fa-flask"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">研发辅助智能体</h3>
+                    <p class="text-gray-600">逆向分析+智能配色，新品研发周期缩短40%，打样成本降低15%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 解决方案详情 -->
+    <section class="py-12 px-4 md:px-8 lg:px-16 bg-neutral">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">解决方案详情</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+            </div>
+
+            <!-- 设备运维 -->
+            <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/3 bg-primary/10 p-8 flex items-center justify-center">
+                        <i class="fa fa-cogs text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">设备运维专家智能体</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 接入振动/温度/电流传感器，时序大模型异常检测</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 整合维修手册/历史案例，自动生成故障排查指导书</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 语音录入维修记录，实现知识库闭环更新</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 布匹质检 -->
+            <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/3 bg-primary/10 p-8 flex items-center justify-center">
+                        <i class="fa fa-search text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">多模态布匹质检智能体</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 构建30+类疵点样本库，垂类大模型微调适配</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 非侵入式改造：加装高清相机+边缘计算模块</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 自动声光报警+MES位置打标，疑难点人工复核</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 销售Copilot -->
+            <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/3 bg-primary/10 p-8 flex items-center justify-center">
+                        <i class="fa fa-users text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">销售教练与获客智能体</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 分析聊天记录，识别客户关切点，生成沟通建议</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 秒级检索产品库，提供专业问题标准答案</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 挖掘下游客户经营动向，输出精准潜客线索</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 研发辅助 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/3 bg-primary/10 p-8 flex items-center justify-center">
+                        <i class="fa fa-flask text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">研发辅助智能体</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 逆向分析竞品，快速推导原料配比与织造工艺</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 语义化色彩匹配，感性词汇转精准染料配比</li>
+                            <li><i class="fa fa-check text-secondary mr-2"></i> 实时监控专利/政策，每周生成行业研报</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 落地路径 -->
+    <section class="py-12 px-4 md:px-8 lg:px-16 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">分阶段落地路径</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+            </div>
+
+            <div class="relative">
+                <!-- 时间轴线条 -->
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 transform md:translate-x-px"></div>
+                
+                <!-- 阶段1 -->
+                <div class="relative mb-12 flex flex-col md:flex-row items-start">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white absolute left-0 md:left-1/2 transform -translate-x-1/2 z-10">1</div>
+                    <div class="md:w-1/2 md:pr-12 md:text-right mt-10 md:mt-0 pl-12 md:pl-0">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">第一阶段（1-3个月）：试点验证</h3>
+                        <p class="text-gray-600">启动布匹质检+设备运维智能体试点，覆盖1条核心生产线，验证单环节ROI，质检准确率达90%，故障预警准确率达85%</p>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 hidden md:block"></div>
+                </div>
+
+                <!-- 阶段2 -->
+                <div class="relative mb-12 flex flex-col md:flex-row items-start">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white absolute left-0 md:left-1/2 transform -translate-x-1/2 z-10">2</div>
+                    <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
+                    <div class="md:w-1/2 md:pl-12 mt-10 md:mt-0 pl-12 md:pl-0">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">第二阶段（3-6个月）：复制推广</h3>
+                        <p class="text-gray-600">全生产线推广质检/设备智能体，部署销售Copilot试点，实现质检人力节省60%，设备停机损失减少40%，销售转化率提升20%</p>
+                    </div>
+                </div>
+
+                <!-- 阶段3 -->
+                <div class="relative flex flex-col md:flex-row items-start">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white absolute left-0 md:left-1/2 transform -translate-x-1/2 z-10">3</div>
+                    <div class="md:w-1/2 md:pr-12 md:text-right mt-10 md:mt-0 pl-12 md:pl-0">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">第三阶段（6个月+）：深度赋能</h3>
+                        <p class="text-gray-600">部署研发辅助智能体+行业动态雷达，新品研发周期缩短40%，构建企业专属技术壁垒</p>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 hidden md:block"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="bg-gray-800 text-white py-8 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="opacity-80">基于2026工业大模型（LMM）与多模态智能体技术 · 聚焦纺织工厂核心场景价值落地</p>
+            <p class="mt-4 text-sm opacity-60">© 2026 纺织工厂智能升级项目组</p>
+        </div>
+    </footer>
+</body>
+</html>
