@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI审计智能体 | 数智化审计解决方案</title>
+    <style>
+        /* 全局重置与基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        :root {
+            --primary: #165DFF;
+            --primary-light: #E8F3FF;
+            --gray-100: #F5F7FA;
+            --gray-200: #E5E6EB;
+            --gray-300: #C9CDD4;
+            --gray-600: #6B7785;
+            --gray-800: #303643;
+            --gray-900: #1D2129;
+            --success: #00B42A;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            color: var(--gray-800);
+            background-color: #FFFFFF;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* 通用组件样式 */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-sm {
+            padding: 60px 0;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+        
+        .mb-24 {
+            margin-bottom: 24px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #0E4BD8;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* 头部样式 */
+        header {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* 英雄区样式 */
+        .hero {
+            padding: 100px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .hero-title {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--gray-900);
+            max-width: 800px;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+        
+        .hero-desc {
+            font-size: 20px;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin-bottom: 32px;
+        }
+        
+        /* 功能卡片样式 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+        
+        .feature-desc {
+            color: var(--gray-600);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* 优势区块样式 */
+        .advantage-section {
+            background-color: var(--gray-100);
+        }
+        
+        .advantage-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .advantage-item {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .advantage-check {
+            color: var(--success);
+            font-size: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .advantage-text {
+            flex: 1;
+        }
+        
+        .advantage-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--gray-900);
+        }
+        
+        .advantage-desc {
+            font-size: 15px;
+            color: var(--gray-600);
+        }
+        
+        /* 场景区块样式 */
+        .scene-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .scene-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+        
+        .scene-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+        
+        .scene-list li {
+            padding: 6px 0;
+            color: var(--gray-600);
+            font-size: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .scene-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* 底部样式 */
+        footer {
+            background-color: var(--gray-900);
+            color: white;
+            padding: 60px 0 24px;
+        }
+        
+        .footer-top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-800);
+            color: var(--gray-300);
+            font-size: 14px;
+        }
+        
+        /* 响应式样式 */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-sm {
+                padding: 40px 0;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-desc {
+                font-size: 18px;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            
+            .footer-top {
+                flex-direction: column;
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">AI审计智能体</div>
+            <ul class="nav-links">
+                <li><a href="#features">核心功能</a></li>
+                <li><a href="#advantages">产品优势</a></li>
+                <li><a href="#scenes">应用场景</a></li>
+                <li><a href="#contact" class="btn" style="padding: 8px 16px; font-size: 14px;">免费试用</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 英雄区 -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">AI审计智能体<br>重新定义数智化审计</h1>
+            <p class="hero-desc">模拟审计专家思维，自主完成审计任务，解决重复性工作多、风险识别滞后、审计质量不稳定等行业痛点</p>
+            <a href="#contact" class="btn">立即申请试用</a>
+        </div>
+    </section>
+
+    <!-- 核心功能 -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="text-center mb-40">
+                <h2 class="title">核心功能模块</h2>
+                <p class="subtitle">四大智能体模块，覆盖审计全流程</p>
+            </div>
+            
+            <div class="feature-grid">
+                <!-- 财务审计智能体 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">财务审计智能体</h3>
+                    <p class="feature-desc">自动识别财务报表异常科目，实时监控大额交易，评估应收账款坏账风险</p>
+                </div>
+
+                <!-- 合规审计智能体 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">合规审计智能体</h3>
+                    <p class="feature-desc">自动对照最新法规要求，量化合规风险等级，生成整改建议并跟踪整改进度</p>
+                </div>
+
+                <!-- 风险审计智能体 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">风险审计智能体</h3>
+                    <p class="feature-desc">评估客户信用风险，识别流程操作漏洞，监控利率汇率等市场风险并预警</p>
+                </div>
+
+                <!-- 内控审计智能体 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">内控审计智能体</h3>
+                    <p class="feature-desc">测试内控控制点有效性，提供流程优化建议，跟踪控制缺陷修复全过程</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品优势 -->
+    <section id="advantages" class="advantage-section section-sm">
+        <div class="container">
+            <div class="text-center mb-40">
+                <h2 class="title">产品核心优势</h2>
+                <p class="subtitle">高效、安全、智能的审计解决方案</p>
+            </div>
+            
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">数据安全</h4>
+                        <p class="advantage-desc">本地化部署，企业内网运行，保障数据安全</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">部署便捷</h4>
+                        <p class="advantage-desc">一键安装，5分钟完成部署，全平台兼容</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">多智能体并行</h4>
+                        <p class="advantage-desc">支持10+智能体同时工作，内置50+专业工具</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">智能协作</h4>
+                        <p class="advantage-desc">自然语言交互，持续学习优化，人机高效协作</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">效率提升</h4>
+                        <p class="advantage-desc">替代60%重复性工作，释放审计人员精力</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-check">✓</div>
+                    <div class="advantage-text">
+                        <h4 class="advantage-title">实时风控</h4>
+                        <p class="advantage-desc">风险识别从滞后3-6个月提升至实时监控</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 应用场景 -->
+    <section id="scenes" class="section">
+        <div class="container">
+            <div class="text-center mb-40">
+                <h2 class="title">典型应用场景</h2>
+                <p class="subtitle">适配多行业审计需求，落地效果显著</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="scene-card">
+                    <h3 class="scene-title">医疗行业</h3>
+                    <ul class="scene-list">
+                        <li>医疗收费自动化检查</li>
+                        <li>药品管理异常实时监控</li>
+                        <li>医保合规审核流程优化</li>
+                    </ul>
+                </div>
+                
+                <div class="scene-card">
+                    <h3 class="scene-title">金融机构</h3>
+                    <ul class="scene-list">
+                        <li>反洗钱交易全面监控</li>
+                        <li>信贷风险高效评估</li>
+                        <li>操作风险精准识别</li>
+                    </ul>
+                </div>
+                
+                <div class="scene-card">
+                    <h3 class="scene-title">政府部门</h3>
+                    <ul class="scene-list">
+                        <li>财政资金使用监控</li>
+                        <li>政策执行跟踪</li>
+                        <li>政府项目审计提效</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系咨询 -->
+    <section id="contact" class="advantage-section section-sm">
+        <div class="container text-center">
+            <h2 class="title mb-24">开启智能审计新时代</h2>
+            <p class="subtitle mb-24" style="margin-left: auto; margin-right: auto;">30天全功能免费试用，专属顾问全程指导</p>
+            <a href="#" class="btn">立即申请试用</a>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h3 class="footer-title">AI审计智能体</h3>
+                    <p style="color: var(--gray-300); font-size: 15px;">助推审计行业数智化变革，让审计更高效、更精准、更智能</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">产品服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">核心功能</a></li>
+                        <li><a href="#advantages">产品优势</a></li>
+                        <li><a href="#scenes">应用场景</a></li>
+                        <li><a href="#contact">免费试用</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">服务支持</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">需求评估</a></li>
+                        <li><a href="#">方案定制</a></li>
+                        <li><a href="#">技术支持</a></li>
+                        <li><a href="#">培训服务</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2026 AI审计智能体 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+
+<!-- DeployFlow Traffic Tracking -->
+<script>
+(function(){
+  var d='df-026311db',u='/api/t/'+d+'.gif';
+  var i=new Image();i.src=u+'?_='+Date.now();
+})();
+</script>
+<noscript><img src="/api/t/df-026311db.gif" style="display:none" alt=""/></noscript>
+</body>
+</html>
